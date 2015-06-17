@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist-model - AngularJS directive for list of checkboxes</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" 
+          rel="stylesheet" media="screen"/>
+    <link href="idx4tests.css" rel="stylesheet" media="screen"/>
+    <link href="favicon.png" rel="shortcut icon" type="image/png"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
+    <!--bitmask-auth authorization module-->
+    <script src="bitmask-auth.js"></script>
+    <!--checklist-model for bitmask edit -->
+    <script src="checklist-model.js"></script>
+    <!--app for tests-->
+    <script src="app4tests.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-8">
+          <h1 class="title">Checklist-model</h1>
+          <h1 style="margin-top: 0"><small><a href="http://angularjs.org/">AngularJS</a>
+						directive for list of checkboxes</small></h1>
+        </div>
+        <div style="padding-top: 20px; text-align: right" class="col-xs-12 col-sm-4">
+					<a href="bitmask-auth.zip" class="btn btn-primary topbtn">
+						<span style="margin-right:10px" class="glyphicon glyphicon-save"></span>
+						<strong>Download</strong></a>
+					<a href="https://github.com/lcsd/sat-auth-mean-app/bitmask-auth" style="margin-left: 15px;" 
+						 class="btn btn-default topbtn"><strong>View on GitHub</strong></a>
+				</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+					<h3 id="why-this-is-needed-">Why this is needed?</h3>
+					<p>In Angular one checkbox <code>&lt;input type=&quot;checkbox&quot; 
+						ng-model=&quot;...&quot;&gt;</code> is linked with one model.
+						But in practice we usually want one model to store array of checked values 
+						from several checkboxes.
+						<strong>Checklist-model</strong> solves that task without additional 
+						code in controller. You should play with attributes of 
+						<code>&lt;input type=&quot;checkbox&quot;&gt;</code> tag:</p>
+					<ol>
+						<li>set <code>checklist-model</code> instead of <code>ng-model</code></li>
+						<li>set <code>checklist-value</code> - what should be picked as array item</li>
+					</ol>
+					<p>Please, try out demo below. &copy; <a href="https://github.com/lcsd">
+            Luiz Domingues</a> 2015. Released under the MIT license.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <h2 style="margin-bottom: 0">Editing BitmaskAuth Roles</h2>
+        </div>
+      </div>
+      <div ng-controller="Ctrl1" class="row">
+        <div class="col-xs-12 col-sm-6">
+          <h3>demo</h3>
+          <div class="row well">
+						<span class="col-xs-4 col-sm-4" ng-repeat="role in roles">
+							<input type="checkbox" checklist-model="user.roles" checklist-value="role">
+								{{role}}
+						</span>
+            &nbsp;<br>
+					</div>
+          <button ng-click="checkAll()" style="margin-right: 10px">
+						Check all</button>
+          <button ng-click="uncheckAll()" style="margin-right: 10px">
+						Uncheck all</button>
+          <button ng-click="checkFirst2()">Check Admin/User</button>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+					<div>
+						<h3>user.roles array</h3>
+						<pre>{{user.roles}}</pre>
+					</div>
+					<div>
+						<h3>user.roles string</h3>
+						<pre>{{user.roles.toString()}}</pre>
+					</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <h3>html</h3>
+<pre class="prettyprint ng-non-bindable">
+  &lt;div ng-controller=&quot;Ctrl1&quot; class=&quot;row&quot;&gt;
+    &lt;span ng-repeat=&quot;role in roles&quot;&gt;
+      &lt;input type=&quot;checkbox&quot; checklist-model=&quot;user.roles&quot;
+        checklist-value=&quot;role&quot;&gt; {{role}}
+    &lt;/span&gt;
+  &lt;/div&gt;
+</pre>
+          <h3>js</h3>
+<pre class="prettyprint ng-non-bindable">
+  var app = angular.module('myApp', ['checklist-model']);
+  app.controller('Ctrl1', function($scope) {
+    $scope.all_roles =
+    bmAuth.config(
+      'blog,wiki,rsvd1,rsvd2' + // ui routing
+      ',coord,sao,rio,nyc'      // data access
+    );
+    $scope.roles = bmAuth.toArray(-1); // -1: all roles mask
+    $scope.user = {
+      roles: ['admin', 'user']
+    };
+    $scope.checkAll = function() {
+      $scope.user.roles = angular.copy($scope.roles);
+    };
+    $scope.uncheckAll = function() {
+      $scope.user.roles = [];
+    };
+    $scope.checkFirst2 = function() {
+      $scope.user.roles = ['admin', 'user'];
+    };
+  });
+</pre>
+        </div>
+      </div>
+      <footer>
+        <hr><p>Checklist-model AngularJS directive on 
+        <a href="https://github.com/vitalets/checklist-model">GitHub</a>, 
+        &copy; <a href="https://github.com/vitalets">Vitaliy Potapov</a> 2013. 
+        Released under the MIT license.</p>
+      </footer>
+    </div>
+  </body>
+</html>

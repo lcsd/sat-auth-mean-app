@@ -1,0 +1,28 @@
+body {
+  padding-top: 20px; 
+}
+
+.title {
+  padding-left: 60px;
+  background: url('favicon.png') center left no-repeat;
+  height: 48px;
+  margin-bottom: 0;
+}
+
+label {
+  display: block;
+}
+
+.prettyprint {
+  border: 1px solid #CCCCCC !important;
+  padding: 10px !important;
+}
+
+footer {
+  text-align: center;
+}
+
+.topbtn {
+  margin: 5px 0;
+  width: 140px;
+}
